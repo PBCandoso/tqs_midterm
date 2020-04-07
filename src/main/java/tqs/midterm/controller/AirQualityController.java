@@ -1,37 +1,38 @@
 package tqs.midterm.controller;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
-import tqs.midterm.entity.CityList;
-import tqs.midterm.entity.CountryList;
-import tqs.midterm.entity.StateList;
-import tqs.midterm.service.AirQualityService;
+import tqs.midterm.entity.*;
+import tqs.midterm.service.OpenaqService;
+
+import java.util.List;
 
 @RestController
 public class AirQualityController {
 
-    private AirQualityService airService;
+    private OpenaqService airService;
 
-    public AirQualityController(AirQualityService service) {
+    public AirQualityController(OpenaqService service) {
         this.airService = service;
     }
 
+    @CrossOrigin
     @GetMapping("/countries")
-    private Flux<CountryList> getContries() {
+    private Flux<List<Country>> getContries() {
         return airService.getCountries();
     }
 
-    @GetMapping("/states")
-    private Flux<StateList> getStates(@RequestParam String country) {
-        return airService.getStates(country);
+    @CrossOrigin
+    @GetMapping("/cities")
+    private Flux<List<City>> getCities(@RequestParam(required=false) String country){
+        return airService.getCities(country);
     }
 
-    @GetMapping("/cities")
-    private Flux<CityList> getCities(@RequestParam String state, @RequestParam String country){
-        return airService.getCities(country,state);
+    @CrossOrigin
+    @GetMapping("/latest")
+    private Flux<List<Location>> getAirData(@RequestParam String city){
+        return airService.getLatestCityAir(city);
     }
+
 
 }

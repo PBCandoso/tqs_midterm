@@ -3,22 +3,14 @@ package tqs.midterm.entity;
 import java.util.List;
 
 public class CityList {
-    String status;
-    List<City> data;
 
-    public String getStatus() {
-        return status;
+    List<City> results;
+
+    public List<City> getResults() {
+        return this.results;
     }
 
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
-    public List<City> getData() {
-        return data;
-    }
-
-    public void setData(List<City> data) {
-        this.data = data;
+    public void setResults(List<City> results) {
+        this.results = results;
     }
 }

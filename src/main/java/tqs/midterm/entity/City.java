@@ -2,18 +2,22 @@ package tqs.midterm.entity;
 
 public class City
 {
-    String city;
+    String country; // country_code
+    String name;
 
-    public String getCity(){
-        return city;
+    public String getCountry() {
+        return country;
     }
 
-    public void setCity(String city){
-        this.city=city;
+    public void setCountry(String country) {
+        this.country = country;
     }
 
-    @Override
-    public String toString() {
-        return this.city;
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }
