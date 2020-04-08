@@ -8,6 +8,7 @@ class MidtermApplicationTests {
 
     @Test
     void contextLoads() {
+        System.out.println("Thank you Kanye, very cool");
     }
 
 }

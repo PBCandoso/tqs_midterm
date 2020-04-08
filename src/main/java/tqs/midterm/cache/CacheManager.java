@@ -37,6 +37,14 @@ public class CacheManager {
         }
     }
 
+    public boolean isEmpty(){
+        return this.cache.isEmpty();
+    }
+
+    public int size(){
+        return this.cache.size();
+    }
+
     public int getHits() {
         return hits;
     }
