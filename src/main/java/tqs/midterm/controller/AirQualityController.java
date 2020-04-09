@@ -2,6 +2,7 @@ package tqs.midterm.controller;
 
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 import tqs.midterm.entity.*;
 import tqs.midterm.service.OpenaqService;
 
@@ -18,19 +19,19 @@ public class AirQualityController {
 
     @CrossOrigin
     @GetMapping("/countries")
-    private Flux<List<Country>> getContries() {
+    private Mono<List<Country>> getContries() {
         return airService.getCountries();
     }
 
     @CrossOrigin
     @GetMapping("/cities")
-    private Flux<List<City>> getCities(@RequestParam(required=false) String country){
+    private Mono<List<City>> getCities(@RequestParam(required=false) String country){
         return airService.getCities(country);
     }
 
     @CrossOrigin
     @GetMapping("/latest")
-    private Flux<List<Location>> getAirData(@RequestParam String city){
+    private Mono<List<Location>> getAirData(@RequestParam String city){
         return airService.getLatestCityAir(city);
     }
 

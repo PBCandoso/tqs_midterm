@@ -3,6 +3,7 @@ package tqs.midterm.service;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 import tqs.midterm.cache.CacheManager;
 import tqs.midterm.entity.*;
 
@@ -22,17 +23,22 @@ public class OpenaqService {
         this.cache = new CacheManager();
     }
 
+    public OpenaqService(String url){
+        this.baseUrl=url;
+        this.webClient = WebClient.create(this.baseUrl);
+        this.cache = new CacheManager();
+    }
+
     // Get available countries
-    public Flux<List<Country>> getCountries(){
+    public Mono<List<Country>> getCountries(){
         @SuppressWarnings("unchecked")
-        Flux<List<Country>> cached = (Flux<List<Country>>) this.cache.get(this.baseUrl+"/countries");
+        Mono<List<Country>> cached = (Mono<List<Country>>) this.cache.get(this.baseUrl+"/countries");
         if(cached == null){
-            Flux<List<Country>> res= webClient.get()
+            Mono<List<Country>> res= webClient.get()
                     .uri("/countries")
                     .retrieve()
-                    .bodyToFlux(CountryList.class)
-                    .flatMap( response -> Flux.just(response.getResults()));
-
+                    .bodyToMono(CountryList.class)
+                    .flatMap( response -> Mono.just(response.getResults()));
             this.cache.add(this.baseUrl+"/countries", LocalDateTime.now().plusMinutes(60),res);
             return res;
         }
@@ -42,16 +48,16 @@ public class OpenaqService {
     }
 
     // Get available cities (within a country)
-    public Flux<List<City>> getCities(String country){
+    public Mono<List<City>> getCities(String country){
         String searchUri="/cities" + (country != null ? "?&country="+country : "");
         @SuppressWarnings("unchecked")
-        Flux<List<City>> cached = (Flux<List<City>>) this.cache.get(this.baseUrl+searchUri);
+        Mono<List<City>> cached = (Mono<List<City>>) this.cache.get(this.baseUrl+searchUri);
         if(cached == null) {
-            Flux<List<City>> res = webClient.get()
+            Mono<List<City>> res = webClient.get()
                     .uri(searchUri)
                     .retrieve()
-                    .bodyToFlux(CityList.class)
-                    .flatMap(response -> Flux.just(response.getResults()));
+                    .bodyToMono(CityList.class)
+                    .flatMap(response -> Mono.just(response.getResults()));
             this.cache.add(this.baseUrl+searchUri, LocalDateTime.now().plusMinutes(60), res);
             return res;
         }
@@ -61,16 +67,16 @@ public class OpenaqService {
     }
 
     // Get city air measurements
-    public Flux<List<Location>> getLatestCityAir(String city){
+    public Mono<List<Location>> getLatestCityAir(String city){
         String searchUri="/latest?&city="+city;
         @SuppressWarnings("unchecked")
-        Flux<List<Location>> cached = (Flux<List<Location>>) this.cache.get(this.baseUrl+searchUri);
+        Mono<List<Location>> cached = (Mono<List<Location>>) this.cache.get(this.baseUrl+searchUri);
         if(cached == null) {
-            Flux<List<Location>> res = webClient.get()
+            Mono<List<Location>> res = webClient.get()
                     .uri(searchUri)
                     .retrieve()
-                    .bodyToFlux(LatestList.class)
-                    .flatMap(response -> Flux.just(response.getResults()));
+                    .bodyToMono(LatestList.class)
+                    .flatMap(response -> Mono.just(response.getResults()));
             this.cache.add(this.baseUrl+searchUri, LocalDateTime.now().plusMinutes(60), res);
             return res;
         }

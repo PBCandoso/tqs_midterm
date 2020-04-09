@@ -3,8 +3,15 @@ package tqs.midterm.entity;
 
 public class Country {
 
-    String code;
-    String name;
+    private String code;
+    private String name;
+
+    public Country(){}
+
+    public Country(String code,String name){
+        this.code=code;
+        this.name=name;
+    }
 
     public String getCode() {
         return code;
@@ -24,6 +31,6 @@ public class Country {
 
     @Override
     public String toString() {
-        return "code:"+this.code+"country: "+this.name;
+        return "[Country] code:"+this.code+" country: "+this.name;
     }
 }
