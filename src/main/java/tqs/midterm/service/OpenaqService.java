@@ -2,7 +2,6 @@ package tqs.midterm.service;
 
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
-import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import tqs.midterm.cache.CacheManager;
 import tqs.midterm.entity.*;
@@ -27,6 +26,12 @@ public class OpenaqService {
         this.baseUrl=url;
         this.webClient = WebClient.create(this.baseUrl);
         this.cache = new CacheManager();
+    }
+
+    public OpenaqService(String url,CacheManager cache){
+        this.baseUrl=url;
+        this.webClient = WebClient.create(this.baseUrl);
+        this.cache = cache;
     }
 
     // Get available countries
@@ -83,5 +88,9 @@ public class OpenaqService {
         else {
             return cached;
         }
+    }
+
+    public void setCache(CacheManager cache) {
+        this.cache = cache;
     }
 }

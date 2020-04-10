@@ -1,6 +1,8 @@
 package tqs.midterm.entity;
 
 
+import java.util.Objects;
+
 public class Country {
 
     private String code;
@@ -27,6 +29,20 @@ public class Country {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Country country = (Country) o;
+        return Objects.equals(code, country.code) &&
+                Objects.equals(name, country.name);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(code, name);
     }
 
     @Override
