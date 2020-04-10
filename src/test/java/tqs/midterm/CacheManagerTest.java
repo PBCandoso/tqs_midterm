@@ -2,7 +2,6 @@ package tqs.midterm;
 
 import static org.hamcrest.MatcherAssert.*;
 import static org.hamcrest.core.Is.*;
-import static org.hamcrest.core.IsNot.*;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -10,7 +9,6 @@ import org.junit.jupiter.api.Test;
 import tqs.midterm.cache.CacheManager;
 
 import java.time.LocalDateTime;
-import java.util.NoSuchElementException;
 
 public class CacheManagerTest {
 

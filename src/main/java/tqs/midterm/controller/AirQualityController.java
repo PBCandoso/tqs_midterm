@@ -11,7 +11,7 @@ import java.util.List;
 @RestController
 public class AirQualityController {
 
-    private OpenaqService airService;
+    private final OpenaqService airService;
 
     public AirQualityController(OpenaqService service) {
         this.airService = service;
@@ -19,7 +19,7 @@ public class AirQualityController {
 
     @CrossOrigin
     @GetMapping("/countries")
-    private Mono<List<Country>> getContries() {
+    private Mono<List<Country>> getCountries() {
         return airService.getCountries();
     }
 
