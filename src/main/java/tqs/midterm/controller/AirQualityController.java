@@ -1,7 +1,9 @@
 package tqs.midterm.controller;
 
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import tqs.midterm.entity.*;
 import tqs.midterm.service.OpenaqService;
@@ -12,27 +14,27 @@ import java.util.List;
 public class AirQualityController {
 
     private final OpenaqService airService;
+    private HttpHeaders headers;
 
     public AirQualityController(OpenaqService service) {
         this.airService = service;
+        this.headers=new HttpHeaders();
+        headers.add("Access-Control-Allow-Origin","*");
     }
 
-    @CrossOrigin
     @GetMapping("/countries")
-    private Mono<List<Country>> getCountries() {
-        return airService.getCountries();
+    public ResponseEntity<Mono<List<Country>>> getCountries() {
+        return new ResponseEntity<>(airService.getCountries(),this.headers, HttpStatus.OK);
     }
 
-    @CrossOrigin
     @GetMapping("/cities")
-    private Mono<List<City>> getCities(@RequestParam(required=false) String country){
-        return airService.getCities(country);
+    public ResponseEntity<Mono<List<City>>> getCities(@RequestParam(required=false) String country){
+        return new ResponseEntity<>(airService.getCities(country),this.headers, HttpStatus.OK);
     }
 
-    @CrossOrigin
     @GetMapping("/latest")
-    private Mono<List<Location>> getAirData(@RequestParam String city){
-        return airService.getLatestCityAir(city);
+    public ResponseEntity<Mono<List<Location>>> getAirData(@RequestParam String city){
+        return new ResponseEntity<>(airService.getLatestCityAir(city),this.headers, HttpStatus.OK);
     }
 
 

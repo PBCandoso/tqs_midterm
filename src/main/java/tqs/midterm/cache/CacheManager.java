@@ -5,7 +5,6 @@ import java.util.*;
 
 public class CacheManager {
 
-    // Structure { url: [expire-time,object]}
     private Map<String,List<Object>> cache;
     private int hits;
     private int misses;
