@@ -4,4 +4,4 @@ A Spring API that allows the user to request weather and air quality information
 
 ## Frontend
 
-https://github.com/PBCandoso/web_airquality
+[Frontend](https://github.com/PBCandoso/web_airquality)
